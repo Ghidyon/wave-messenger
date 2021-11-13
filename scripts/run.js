@@ -5,7 +5,7 @@ const main = async () => {
     const [owner, randomPerson] = await hre.ethers.getSigners();
 
     // Compile my smart contract
-    const waveContractFactory = await hre.ethers.getContractFactory("WavePortal");
+    const waveContractFactory = await hre.ethers.getContractFactory("WaveMessenger");
 
     // Deploy contract
     const waveContract = await waveContractFactory.deploy();

@@ -8,7 +8,7 @@ const main = async () => {
     console.log("Account Balance: ", accountBalance.toString());
 
     // Get Contract as token
-    const Token = await hre.ethers.getContractFactory("WavePortal");
+    const Token = await hre.ethers.getContractFactory("WaveMessenger");
 
     // Deploy contract
     const portal = await Token.deploy();
