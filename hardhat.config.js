@@ -26,6 +26,3 @@ module.exports = {
   }
 };
 
-// Deploying contracts with account:  0xB5de838DCd30bAf519afD150e99E68c2Da9743aC
-// Account Balance:  99884769498708617
-// WaveMessenger Address:  0xD8Ae80255c25Bc5beF22148701465a102df63515
