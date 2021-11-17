@@ -20,18 +20,21 @@ const main = async () => {
     // run contract functions
     let waveCount;
     waveCount = await waveContract.getTotalWaves();
+    console.log(waveCount.toNumber());
+
 
     // allow me to wave
-    let waveTxn = await waveContract.wave();
-    await waveTxn.wait();
-
-    waveCount = await waveContract.getTotalWaves();
+    let waveTxn = await waveContract.wave("Test Message!");
+    await waveTxn.wait(); // wait for the txn to be mined
 
     // allow anonymous user wave at me
-    waveTxn = await waveContract.connect(randomPerson).wave();
-    await waveTxn.wait();
+    waveTxn = await waveContract.connect(randomPerson).wave("Anonymous Test Message!");
+    await waveTxn.wait(); // wait for the txn to be mined
 
     waveCount = await waveContract.getTotalWaves();
+
+    let allWaves = await waveContract.getAllWaves();
+    console.log(allWaves);
 };
 
 
