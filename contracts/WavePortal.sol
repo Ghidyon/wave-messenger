@@ -7,10 +7,17 @@ import "hardhat/console.sol";
 contract WaveMessenger{
     uint totalWaves;
 
+    // we'll use this variable to generate random numbers
+    uint256 private seed;
+
     constructor() payable {
         console.log("You looking at a smart contract");
+
+        // setting the initial seed
+        seed = (block.timestamp + block.difficulty) % 100;
     }
     
+
     event NewWave(address indexed from, uint256 timestamp, string message);
 
     struct Wave {
@@ -33,23 +40,32 @@ contract WaveMessenger{
 
         waves.push(Wave(msg.sender, _message, block.timestamp));
 
+        // Generate a new seed for the user that waves
+        seed = (block.difficulty + block.timestamp + seed) % 100;
+        console.log("seed: %d", seed);
+        // Give a 50% chance that the user wins the price
+        if (seed <= 50) {
+            console.log("%s won!", msg.sender);
+        
+            uint256 prizeAmount = 0.0001 ether;
+
+            require(
+
+                // address(this).balance is the balance of the contract itself
+                prizeAmount <= address(this).balance,
+                "Trying to withdraw more money than the contract has."
+            );
+
+            (bool success,) = (msg.sender).call{value: prizeAmount}("");
+
+            require(
+                success,
+                "Failed to withdraw money from the contract."
+            );
+        }
+
         emit NewWave(msg.sender, block.timestamp, _message);
 
-        uint256 prizeAmount = 0.0001 ether;
-
-        require(
-
-            // address(this).balance is the balance of the contract itself
-            prizeAmount <= address(this).balance,
-            "Trying to withdraw more money than the contract has."
-        );
-
-        (bool success,) = (msg.sender).call{value: prizeAmount}("");
-
-        require(
-            success,
-            "Failed to withdraw money from the contract."
-        );
     }
 
     function getAllWaves() public view returns(Wave[] memory) {

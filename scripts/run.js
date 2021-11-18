@@ -28,18 +28,16 @@ const main = async () => {
     )
 
     // allow me to wave
-    let waveTxn = await waveContract.wave("Test Message!");
+    let waveTxn = await waveContract.wave("Wave1 Test Message!");
     await waveTxn.wait(); // wait for the txn to be mined
 
     // allow anonymous user wave at me
-    waveTxn = await waveContract.connect(randomPerson).wave("Anonymous Test Message!");
+    waveTxn = await waveContract.connect(randomPerson).wave("Wave2 Anonymous Test Message!");
     await waveTxn.wait(); // wait for the txn to be mined
 
-    waveCount = await waveContract.getTotalWaves();
-
     // Get contract balance again to see what happened
-
     contractBalance = await hre.ethers.provider.getBalance(waveContract.address);
+
     console.log(
         'Contract balance:',
         hre.ethers.utils.formatEther(contractBalance)
